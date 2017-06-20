@@ -11,6 +11,16 @@
     <div class="button">
       <a href ="/sign-in">Sign In</a>
       <a href ="/sign-up">Sign Up</a>
+
+      <div class="album-list">
+        <% albums.forEach(function(album) { %>
+          <div>
+            <h5><a href="/albums/<%= album.id %>"><%= album.title %></a></h5>
+            <span><%= album.artist %></span>
+          </div>
+        <% }) %>
+      </div>
+      
     </div>
   </body>
 </html>

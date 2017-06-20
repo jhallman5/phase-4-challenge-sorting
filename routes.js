@@ -3,8 +3,18 @@ const database = require('./database')
 
 const router = express.Router()
 
+
+
 router.get('/', (request, response) => {
-  response.render('splash')
+  console.log( "=-=-=-> request.cookies", request.cookies )
+    database.getAlbums((error, albums) => {
+      if (error) {
+        response.status(500).render('error', { error: error })
+      } else {
+        const album = albums[0]
+    response.render('splash',  {albums})
+  }
+})
 })
 
 router.get('/sign-up', (request, response) => {
@@ -22,6 +32,7 @@ router.post('/sign-up/user', (request, response) => {
     if(error) {
       response.status(500).render('error', { error: error })
     } else {
+      response.cookie('user', {username, email, password}, {expires: new Date(Date.now() + 1000 + 60 + 5)} )
       response.render('user_profile', {username})
     }
   })
@@ -33,10 +44,16 @@ router.post('/sign-in/user', (request, response) => {
     if(error) {
       response.status(500).render('error', { error: error })
     } else {
-      response.render('user_profile', {username})
+      response.cookie('user', {username, email, password}, {expires: new Date(Date.now() + 1000 + 60 + 5)} )
+      response.render('user_profile', {username: username})
     }
   })
 })
+
+// router.post('/log_out/user', (request, response) => {
+//   response.clearCookie('user' )
+//   response.render('splash')
+// })
 
 router.get('/albums/:albumID', (request, response) => {
   const albumID = request.params.albumID

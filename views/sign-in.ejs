@@ -7,10 +7,11 @@
   <body>
     <h1>Sign in to Vinyl!</h1>
 
-    <form class="login" action="/handle-sign-in" method="post">
-      <input class="username" type="text" value="Username" />
-      <input class="password" type="text" value="Password" />
-      <button type="submit">Submit</button>
+    <<form class="login" action="/sign-in/user" method="post">
+      <input class="username" type="text" name="username" value="Username" />
+      <input class="email" type="text" name="email" value="Email" />
+      <input class="password" type="text" name="password" value="Password" />
+      <input type="submit" />
     </form>
   </body>
   <script></script>

@@ -12,7 +12,8 @@ CREATE TABLE users (
   id SERIAL,
   username VARCHAR(25) NOT NULL,
   email VARCHAR(50) NOT NULL,
-  password VARCHAR(25) NOT NULL
+  password VARCHAR(25) NOT NULL,
+  member_since DATE NOT NULL DEFAULT(CURRENT_TIMESTAMP)
 );
 
 CREATE TABLE reviews (

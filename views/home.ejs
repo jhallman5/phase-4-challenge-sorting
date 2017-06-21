@@ -7,19 +7,20 @@
   </head>
   <body>
     <h1><%- include('header.ejs') %></h1>
+
     <h1>Vinyl</h1>
     <div class="button">
-      <a href ="/sign-in">Sign In</a>
-      <a href ="/sign-up">Sign Up</a>
 
+    <h2>Records!</h2>
       <div class="album-list">
         <% albums.forEach(function(album) { %>
           <div>
             <h5><a href="/albums/<%= album.id %>"><%= album.title %></a></h5>
-            <span><%= album.artist %></span>
+            <span>by <%= album.artist %></span>
           </div>
         <% }) %>
       </div>
+    <h2>Recent Reviews</h2>
 
     </div>
   </body>

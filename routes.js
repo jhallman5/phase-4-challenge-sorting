@@ -37,9 +37,12 @@ router.post('/sign-up', (request, response) => {
       response.status(500).render('error', { error: error })
     } else {
       response.cookie('user', {username, email, password}, {expires: new Date(Date.now() + 1000 + 60 + 5)} )
-      response.render('user_profile', {username})
+      response.redirect(`/sign-in/${userId}`, {username})
     }
   })
+})
+
+router.get('/sign-in/:userId', (request, response) => {
 })
 
 router.post('/sign-in/user', (request, response) => {
@@ -49,19 +52,22 @@ router.post('/sign-in/user', (request, response) => {
       response.status(500).render('error', { error: error })
     } else {
       const userI = user[0]
+      const userID = user[0].id
+      console.log( "=-=-=-> userI", userI.id )
       response.cookie('user', userI, {expires: new Date(Date.now() + 9999999999)} )
-      response.render('user_profile', {username})
+      response.redirect(`/users/${userID}`)
     }
   })
 })
 
-router.get('/sign-in/:userId', (request, response) => {
-})
-
-
 router.post('/log_out', (request, response) => {
   response.clearCookie('user' )
   response.redirect('/')
+})
+
+router.get('/users/:userID', (request, response) => {
+  const user = request.cookies.user
+  response.render('user_profile', {user})
 })
 
 router.get('/albums/:albumID', (request, response ) => {

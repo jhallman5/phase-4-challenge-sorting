@@ -6,9 +6,10 @@
 </head>
 <body>
   <%- include('header') %>
-  
-  <h1> Hello from the page <%- username %></h1>
-  <h1>BOOP</h1>
+
+  <h1> Hello from the page <%- user.username %></h1>
+  <h5> Email Address: <%- user.email %></h5>
+  <h5> Member Since: <%- user.member_since %></h5>
 
 </body>
 </html>

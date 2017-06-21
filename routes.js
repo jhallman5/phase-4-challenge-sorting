@@ -12,7 +12,7 @@ router.get('/', (request, response) => {
         response.status(500).render('error', { error: error })
       } else {
         const album = albums[0]
-    response.render('splash',  {albums})
+    response.render('home',  {albums})
   }
 })
 })
@@ -30,7 +30,7 @@ router.get('/sign-in', (request, response) => {
 })
 
 router.post('/sign-up', (request, response) => {
-  console.log( "=-=-=-> request.body", request.body )
+  console.log( "=-=-=-> request.cookies", request.cookies )
   const {username, email, password} = request.body
   database.addUser(username, email, password , (error) => {
     if(error) {
@@ -43,16 +43,14 @@ router.post('/sign-up', (request, response) => {
 })
 
 router.post('/sign-in/user', (request, response) => {
-  console.log( "=-=-=-> request.body", request.body )
   const {username, email, password} = request.body
   database.userSignIn(username, password , (error, user) => {
     if(error) {
       response.status(500).render('error', { error: error })
     } else {
       const userI = user[0]
-      console.log( "=-=-=-> user", userI )
       response.cookie('user', userI, {expires: new Date(Date.now() + 9999999999)} )
-      response.render('user_profile', {username: username})
+      response.render('user_profile', {username})
     }
   })
 })

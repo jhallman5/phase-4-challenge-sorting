@@ -3,17 +3,28 @@ html, body {
   flex-wrap: wrap;
   margin: 0;
   padding: 0;
+  border: 0;
   width: 100vw;
+  background-color: #b5c0d1;
 }
+
 
 .header {
   display: flex;
-  align-self: flex-start;
-  padding: 0;
-  margin: 0;
   width: 100vw;
+  height:35px;
+  background-color: #9ea9ef;
+  justify-content: flex-end;
 }
 
 .review-list {
   border: 1px solid black;
+}
+
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 25vh
+
 }

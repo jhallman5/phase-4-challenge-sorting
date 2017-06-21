@@ -3,9 +3,10 @@
   <head>
     <meta charset="utf-8">
     <title>Vinyl</title>
+    <link rel="stylesheet" type="text/css" href="/style.css">
   </head>
   <body>
-    <h1><%- include('header') %></h1>
+    <%- include('header') %>
 
     <h1> New Review for <%- album[0].title %></h1>
     <form action="/albums/<%= album[0].id %>/review" method="POST">

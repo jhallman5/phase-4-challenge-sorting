@@ -3,17 +3,17 @@
   <head>
     <meta charset="utf-8">
     <title>Vinyl</title>
-
+    <link rel="stylesheet" type="text/css" href="/style.css">
   </head>
   <body>
-    <h1><%- include('header') %></h1>
+    <%- include('header') %>
     <h1>Sign up for Vinyl!</h1>
 
     <form class="login" action="/sign-up" method="post">
       <input class="username" type="text" name="username" value="Username" />
       <input class="email" type="text" name="email" value="Email" />
       <input class="password" type="text" name="password" value="Password" />
-      <input type="submit" />
+      <input type="submit" value="Sign up" />
     </form>
   </body>
 </html>

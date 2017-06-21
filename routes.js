@@ -29,7 +29,8 @@ router.get('/sign-in', (request, response) => {
   response.render('sign-in')
 })
 
-router.post('/sign-up/user', (request, response) => {
+router.post('/sign-up', (request, response) => {
+  console.log( "=-=-=-> request.body", request.body )
   const {username, email, password} = request.body
   database.addUser(username, email, password , (error) => {
     if(error) {
@@ -42,21 +43,28 @@ router.post('/sign-up/user', (request, response) => {
 })
 
 router.post('/sign-in/user', (request, response) => {
+  console.log( "=-=-=-> request.body", request.body )
   const {username, email, password} = request.body
-  database.userSignIn(username, password , (error) => {
+  database.userSignIn(username, password , (error, user) => {
     if(error) {
       response.status(500).render('error', { error: error })
     } else {
-      response.cookie('user', {username, email, password}, {expires: new Date(Date.now() + 1000 + 60 + 5)} )
+      const userI = user[0]
+      console.log( "=-=-=-> user", userI )
+      response.cookie('user', userI, {expires: new Date(Date.now() + 9999999999)} )
       response.render('user_profile', {username: username})
     }
   })
 })
 
-// router.post('/log_out/user', (request, response) => {
-//   response.clearCookie('user' )
-//   response.render('splash')
-// })
+router.get('/sign-in/:userId', (request, response) => {
+})
+
+
+router.post('/log_out', (request, response) => {
+  response.clearCookie('user' )
+  response.redirect('/')
+})
 
 router.get('/albums/:albumID', (request, response ) => {
   const albumID = request.params.albumID

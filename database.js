@@ -74,6 +74,5 @@ module.exports = {
   userSignIn,
   addReview,
   getReviewsByRecordId,
-  getRecordData,
   outerJoinTry
 }

@@ -65,7 +65,6 @@ router.get('/albums/:albumID', (request, response ) => {
     if (error) {
       response.status(500).render('error', { error: error })
     } else {
-      const album = albums[0]
       response.render('album', { album: albums })
     }
   })
@@ -78,6 +77,19 @@ router.get('/albums/:albumID/review', (request, response) => {
       response.status(500).render('error', { error: error })
     } else {
       response.render('review', { album: album })
+    }
+  })
+})
+
+router.post('/albums/:albumID/review', (request, response) => {
+  const albumId = request.params.albumID
+  const userId = 1
+  const content = request.body.userReview
+  database.addReview(userId, albumId, content, (error, album) => {
+    if (error) {
+      response.status(500).render('error', { error: error })
+    } else {
+      response.redirect(`/albums/${albumId}`)
     }
   })
 })

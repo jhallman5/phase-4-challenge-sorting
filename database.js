@@ -50,22 +50,22 @@ const outerJoinTry = function(albumId, callback){
 
 }
 
-const getRecordData = function(albumId, callback) {
-  return new Promise( (resolve, reject) => { getAlbumsByID(albumId, (error, response) => resolve(response[0])) })
-    .then( (res) => {
-      const album = res
-      return new Promise( (resolve, reject) => {
-       getReviewsByRecordId(album.id, (error, response) => {
-        album.reviews = response
-        console.log( "=-=-=-> album", album )
-        resolve(album)
-      })
-    })
-    })
-    .catch( error => {
-    console.log( "=-=-=-> error", error )
-  })
-}
+// const getRecordData = function(albumId, callback) {
+//   return new Promise( (resolve, reject) => { getAlbumsByID(albumId, (error, response) => resolve(response[0])) })
+//     .then( (res) => {
+//       const album = res
+//       return new Promise( (resolve, reject) => {
+//        getReviewsByRecordId(album.id, (error, response) => {
+//         album.reviews = response
+//         console.log( "=-=-=-> album", album )
+//         resolve(album)
+//       })
+//     })
+//     })
+//     .catch( error => {
+//     console.log( "=-=-=-> error", error )
+//   })
+// }
 
 module.exports = {
   getAlbums,

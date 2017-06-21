@@ -21,6 +21,9 @@ router.get('/sign-up', (request, response) => {
   response.render('sign-up')
 })
 
+router.get('/review', (request, response) => {
+  response.render('review')
+})
 
 router.get('/sign-in', (request, response) => {
   response.render('sign-in')
@@ -55,15 +58,26 @@ router.post('/sign-in/user', (request, response) => {
 //   response.render('splash')
 // })
 
-router.get('/albums/:albumID', (request, response) => {
+router.get('/albums/:albumID', (request, response ) => {
   const albumID = request.params.albumID
 
-  database.getAlbumsByID(albumID, (error, albums) => {
+  database.outerJoinTry(albumID, (error, albums) => {
     if (error) {
       response.status(500).render('error', { error: error })
     } else {
       const album = albums[0]
-      response.render('album', { album: album })
+      response.render('album', { album: albums })
+    }
+  })
+})
+
+router.get('/albums/:albumID/review', (request, response) => {
+  const albumId = request.params.albumID
+  database.getAlbumsByID(albumId, (error, album) => {
+    if (error) {
+      response.status(500).render('error', { error: error })
+    } else {
+      response.render('review', { album: album })
     }
   })
 })

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Vinyl</title>
+  </head>
+  <body>
+    <h1><%- include('header') %></h1>
+
+    <h1> New Review for <%- album[0].title %></h1>
+    <form action="/albums/<%= album.id %>review" method="POST">
+      <textarea class="review" type="textarea" />Your Opinion!</textarea>
+      <input type="submit" />
+    </form>
+  </body>
+</html>

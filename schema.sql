@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS albums;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS reviews;
 
 CREATE TABLE albums (
   id SERIAL,
@@ -12,4 +13,11 @@ CREATE TABLE users (
   username VARCHAR(25) NOT NULL,
   email VARCHAR(50) NOT NULL,
   password VARCHAR(25) NOT NULL
+);
+
+CREATE TABLE reviews (
+  id SERIAL,
+  user_id INT NOT NULL,
+  album_id INT NOT NULL,
+  content TEXT NOT NULL
 );

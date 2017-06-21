@@ -13,12 +13,13 @@ CREATE TABLE users (
   username VARCHAR(25) NOT NULL,
   email VARCHAR(50) NOT NULL,
   password VARCHAR(25) NOT NULL,
-  member_since DATE NOT NULL DEFAULT(CURRENT_TIMESTAMP)
+  member_since DATE NOT NULL DEFAULT(CURRENT_DATE)
 );
 
 CREATE TABLE reviews (
-  id SERIAL,
+  id_r SERIAL,
   user_id INT NOT NULL,
   album_id INT NOT NULL,
-  content TEXT NOT NULL
+  content TEXT NOT NULL,
+  created_on TIMESTAMP NOT NULL DEFAULT(NOW())
 );

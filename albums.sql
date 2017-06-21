@@ -18,5 +18,6 @@ INSERT INTO
   reviews (user_id, album_id, content)
 VALUES
   (1, 2, 'I did not get a seat at the table.'),
-  (2, 3, 'oh lordy Lorde.')
+  (2, 3, 'oh lordy Lorde.'),
+  (1, 3, 'Lorde of the flies')
 ;

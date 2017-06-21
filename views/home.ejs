@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Vinyl</title>
-
+    <link rel="stylesheet" type="text/css" href="/style.css">
   </head>
   <body>
     <h1><%- include('header.ejs') %></h1>
@@ -11,9 +11,9 @@
     <h1>Vinyl</h1>
     <div class="button">
 
-    <h2>Records!</h2>
+    <h2>Records</h2>
       <div class="album-list">
-        <% albums.forEach(function(album) { %>
+        <% albumsAndReviews.forEach(function(album) { %>
           <div>
             <h5><a href="/albums/<%= album.id %>"><%= album.title %></a></h5>
             <span>by <%= album.artist %></span>
@@ -21,7 +21,12 @@
         <% }) %>
       </div>
     <h2>Recent Reviews</h2>
-
+      <% albumsAndReviews.forEach(function(data){
+          data.reviews.forEach(function(review){ %>
+        <div class="review-list">
+          <%= review.content %>
+        </div>
+      <% }) }) %>
     </div>
   </body>
 </html>

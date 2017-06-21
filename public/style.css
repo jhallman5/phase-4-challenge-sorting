@@ -13,3 +13,7 @@ html, body {
   margin: 0;
   width: 100vw;
 }
+
+.review-list {
+  border: 1px solid black;
+}

@@ -14,18 +14,6 @@ app.use(cookieParser())
 
 app.use(router)
 
-// app.get('/', (request, response) => {
-//   database.getAlbums((error, albums) => {
-//     if (error) {
-//       response.status(500).render('error', { error: error })
-//     } else {
-//       response.render('index', { albums: albums })
-//     }
-//   })
-// })
-
-
-
 app.use((request, response) => {
   response.status(404).render('not_found')
 })

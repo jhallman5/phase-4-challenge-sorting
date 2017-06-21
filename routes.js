@@ -3,18 +3,19 @@ const database = require('./database')
 
 const router = express.Router()
 
-
-
 router.get('/', (request, response) => {
-  console.log( "=-=-=-> request.cookies", request.cookies )
-    database.getAlbums((error, albums) => {
+    let user
+    if(request.cookies.user) {
+      user = request.cookies.user
+    }
+    database.getAlbumsAndReviews((error, albumsAndReviews) => {
       if (error) {
         response.status(500).render('error', { error: error })
       } else {
-        const album = albums[0]
-    response.render('home',  {albums})
-  }
-})
+        user ? response.render('home',  {albumsAndReviews, user })
+              : response.render('home',  {albumsAndReviews})
+      }
+    })
 })
 
 router.get('/sign-up', (request, response) => {
@@ -30,7 +31,6 @@ router.get('/sign-in', (request, response) => {
 })
 
 router.post('/sign-up', (request, response) => {
-  console.log( "=-=-=-> request.cookies", request.cookies )
   const {username, email, password} = request.body
   database.addUser(username, email, password , (error) => {
     if(error) {
@@ -53,7 +53,6 @@ router.post('/sign-in/user', (request, response) => {
     } else {
       const userI = user[0]
       const userID = user[0].id
-      console.log( "=-=-=-> userI", userI.id )
       response.cookie('user', userI, {expires: new Date(Date.now() + 9999999999)} )
       response.redirect(`/users/${userID}`)
     }
@@ -71,31 +70,52 @@ router.get('/users/:userID', (request, response) => {
 })
 
 router.get('/albums/:albumID', (request, response ) => {
+  let user
+  if(request.cookies.user) {
+    user = request.cookies.user
+  }
   const albumID = request.params.albumID
 
-  database.outerJoinTry(albumID, (error, albums) => {
+  database.albumJOINreviews(albumID, (error, albums) => {
     if (error) {
       response.status(500).render('error', { error: error })
     } else {
-      response.render('album', { album: albums })
+      if (albums.length === 0) {
+        database.getAlbumsByID(albumID, (error, album) => {
+          if (error) {
+            response.status(500).render('error', { error: error })
+          } else {
+            user ? response.render('album', { album, user})
+                  : response.render('album', { album})
+          }
+        })
+      } else{
+      user ? response.render('album', { album: albums, user })
+            : response.render('album', { album: albums })
+    }
     }
   })
 })
 
 router.get('/albums/:albumID/review', (request, response) => {
+  let user
+  if(request.cookies.user) {
+    user = request.cookies.user
+  }
   const albumId = request.params.albumID
   database.getAlbumsByID(albumId, (error, album) => {
     if (error) {
       response.status(500).render('error', { error: error })
     } else {
-      response.render('review', { album: album })
+      user ? response.render('review', { album, user })
+            : response.render('review', { album })
     }
   })
 })
 
 router.post('/albums/:albumID/review', (request, response) => {
   const albumId = request.params.albumID
-  const userId = 1
+  const userId = request.cookies.user.id
   const content = request.body.userReview
   database.addReview(userId, albumId, content, (error, album) => {
     if (error) {

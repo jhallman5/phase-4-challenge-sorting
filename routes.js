@@ -1,4 +1,5 @@
 const express = require('express')
+const database = require('./database')
 
 const router = express.Router()
 
@@ -10,15 +11,32 @@ router.get('/sign-up', (request, response) => {
   response.render('sign-up')
 })
 
-router.post('/sign-up', (request, response) => {
-  response.render('sign-up')
-})
-
 
 router.get('/sign-in', (request, response) => {
   response.render('sign-in')
 })
 
+router.post('/sign-up/user', (request, response) => {
+  const {username, email, password} = request.body
+  database.addUser(username, email, password , (error) => {
+    if(error) {
+      response.status(500).render('error', { error: error })
+    } else {
+      response.render('user_profile', {username})
+    }
+  })
+})
+
+router.post('/sign-in/user', (request, response) => {
+  const {username, email, password} = request.body
+  database.userSignIn(username, password , (error) => {
+    if(error) {
+      response.status(500).render('error', { error: error })
+    } else {
+      response.render('user_profile', {username})
+    }
+  })
+})
 
 router.get('/albums/:albumID', (request, response) => {
   const albumID = request.params.albumID

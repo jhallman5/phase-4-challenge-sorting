@@ -1,9 +1,16 @@
 <div class='header'>
-  <a href="#">profile</a>
-  <a href="#">sign out</a>
+  <% if(locals.user) { %>
+    <form action="/users/<%- locals.user.id %>" method="GET">
+      <input type="submit" value="profile"/>
+    </form>
+    <form action="/log_out" method="POST">
+      <input type="submit" value="log out"/>
+    </form>
+  <% } %>
 
-
-  <a href="/sign-in">sign in</a>
-  <a href="/sign-up">sign up</a>
+  <% if(!locals.user) { %>
+    <a href="/sign-in">sign in</a>
+    <a href="/sign-up">sign up</a>
+  <% } %>
   <a href="/">home</a>
 </div>

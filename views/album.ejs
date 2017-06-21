@@ -6,13 +6,21 @@
   <script type="text/javascript" src="/script.js"></script>
 </head>
 <body>
-
-  <h1><%= album.title %></h1>
-  <em>by <%= album.artist %></em>
+    <h1><%- include('header') %></h1>
+  <h1><%= album[0].title %></h1>
+  <em>by <%= album[0].artist %></em>
 
   <h2>Reviews</h2>
+  <div>
+    <% album.forEach(function(review) { %>
+      <div class="reviews">
+        <h5><%= review.content %></h5>
+      </div>
+    <% }) %>
+  </div>
 
-  <!-- TODO: implement album reviews -->
-
+  <form action="<%= album[0].id %>/review">
+    <input type="submit" value="add review" />
+  </form>
 </body>
 </html>

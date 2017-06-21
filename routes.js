@@ -36,11 +36,17 @@ router.post('/sign-up', (request, response) => {
     if(error) {
       response.status(500).render('error', { error: error })
     } else {
-      response.cookie('user', {username, email, password}, {expires: new Date(Date.now() + 1000 + 60 + 5)} )
-      response.redirect(`/sign-in/${userId}`, {username})
+      database.userSignIn(username, password, (error, user) => {
+        if(error) {
+        response.status(500).render('error', { error: error })
+      } else {
+        const userInfo = user
+        const userID = user[0].id
+        response.cookie('user', userInfo, {expires: new Date(Date.now() + 9999999999)} )
+      response.redirect(`/users/${userID}`)
     }
   })
-})
+}})})
 
 router.get('/sign-in/:userId', (request, response) => {
 })
@@ -51,9 +57,9 @@ router.post('/sign-in/user', (request, response) => {
     if(error) {
       response.status(500).render('error', { error: error })
     } else {
-      const userI = user[0]
+      const userInfo = user[0]
       const userID = user[0].id
-      response.cookie('user', userI, {expires: new Date(Date.now() + 9999999999)} )
+      response.cookie('user', userInfo, {expires: new Date(Date.now() + 9999999999)} )
       response.redirect(`/users/${userID}`)
     }
   })
@@ -114,9 +120,14 @@ router.get('/albums/:albumID/review', (request, response) => {
 })
 
 router.post('/albums/:albumID/review', (request, response) => {
+  if(!request.cookies.user){
+    response.redirect(`/`)
+  }
+
   const albumId = request.params.albumID
   const userId = request.cookies.user.id
   const content = request.body.userReview
+
   database.addReview(userId, albumId, content, (error, album) => {
     if (error) {
       response.status(500).render('error', { error: error })

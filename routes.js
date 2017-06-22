@@ -72,8 +72,15 @@ router.post('/log_out', (request, response) => {
 
 router.get('/users/:userID', (request, response) => {
   const user = request.cookies.user
-  response.render('user_profile', {user})
+  database.getReviewsByUserId(user.id, (error, userReviews) => {
+    if (error) {
+      response.status(500).render('error', { error: error })
+    } else {
+      response.render('user_profile', {user, userReviews})
+    }
+  })
 })
+
 
 router.get('/albums/:albumID', (request, response ) => {
   let user
@@ -133,6 +140,22 @@ router.post('/albums/:albumID/review', (request, response) => {
       response.status(500).render('error', { error: error })
     } else {
       response.redirect(`/albums/${albumId}`)
+    }
+  })
+})
+
+router.post('/:reviewId/delete', (request, response) =>{
+  let user
+  if(request.cookies.user) {
+    user = request.cookies.user
+  }
+  const userId = user.id
+  const reviewId = request.params.reviewId
+  database.deleteReviewById(reviewId, (error) => {
+    if (error) {
+      response.status(500).render('error', { error: error })
+    } else {
+      response.redirect(`/users/${userId}`)
     }
   })
 })

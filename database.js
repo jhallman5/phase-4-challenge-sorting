@@ -45,8 +45,16 @@ const getReviewsByRecordId = function(albumId, callback){
   query('SELECT * FROM reviews WHERE album_id = $1',[albumId], callback)
 }
 
+const getReviewsByUserId = function(userId, callback) {
+  query('SELECT * FROM reviews WHERE user_id = $1', [userId], callback)
+}
+
 const albumJOINreviews = function(albumId, callback){
   query('SELECT * FROM albums INNER JOIN reviews ON albums.id = reviews.album_id WHERE album_id = $1',[albumId], callback)
+}
+
+const deleteReviewById = function(reviewId, callback){
+  query('DELETE FROM reviews WHERE id_r = $1', [reviewId], callback)
 }
 
 const getAlbumsAndReviews = function(callback){
@@ -80,5 +88,7 @@ module.exports = {
   addReview,
   getReviewsByRecordId,
   albumJOINreviews,
-  getAlbumsAndReviews
+  getAlbumsAndReviews,
+  getReviewsByUserId,
+  deleteReviewById
 }
